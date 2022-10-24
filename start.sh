@@ -7,6 +7,6 @@ else
   git clone $UPSTREAM_REPO /m_finder_bot
 fi
 cd /m_finder_bot
-pip3 install  -r requirements.txt
+pip3 install -U -r requirements.txt
 echo "Starting Bot....💥"
 python3 bot.py
