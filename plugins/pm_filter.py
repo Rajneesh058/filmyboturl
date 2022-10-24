@@ -130,7 +130,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"[{get_size(file.file_size)}] {file.file_name}", callback_data=f'files#{file.file_id}'
+                    text=f"[{get_size(file.file_size)}] {file.file_name}", url=await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                 ),
             ]
             for file in files
@@ -143,7 +143,7 @@ async def next_page(bot, query):
                 ),
                 InlineKeyboardButton(
                     text=f"{get_size(file.file_size)}",
-                    callback_data=f'files_#{file.file_id}',
+                    url=await get_shortlink(f"https://telegram.me/{temp.U_NAME}?start=files_{file.file_id}")
                 ),
             ]
             for file in files
@@ -158,18 +158,18 @@ async def next_page(bot, query):
     if n_offset == 0:
         btn.append(
             [InlineKeyboardButton("⏪ BACK", callback_data=f"next_{req}_{key}_{off_set}"),
-             InlineKeyboardButton(f"📃 Pages {round(int(offset) / 10) + 1} / {round(total / 10)}",
+             InlineKeyboardButton(f"📃 Pages {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}",
                                   callback_data="pages")]
         )
     elif off_set is None:
         btn.append(
-            [InlineKeyboardButton(f"🗓 {round(int(offset) / 10) + 1} / {round(total / 10)}", callback_data="pages"),
+            [InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
              InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{req}_{key}_{n_offset}")])
     else:
         btn.append(
             [
                 InlineKeyboardButton("⏪ BACK", callback_data=f"next_{req}_{key}_{off_set}"),
-                InlineKeyboardButton(f"🗓 {round(int(offset) / 10) + 1} / {round(total / 10)}", callback_data="pages"),
+                InlineKeyboardButton(f"🗓 {math.ceil(int(offset) / 10) + 1} / {math.ceil(total / 10)}", callback_data="pages"),
                 InlineKeyboardButton("NEXT ⏩", callback_data=f"next_{req}_{key}_{n_offset}")
             ],
         )
@@ -193,7 +193,7 @@ async def advantage_spoll_choker(bot, query):
         return await query.answer(f"⚠️ Hey, {query.from_user.first_name}.. \n\nSearch Your Own File, \n\n⚠️ Don't Click Others Results 😬", show_alert=True)
     if movie_  == "close_spellcheck":
         return await query.message.delete()
-    movies = SPELL_CHECK.get(query.message.reply_to_message.message_id)
+    movies = SPELL_CHECK.get(query.message.reply_to_message.id)
     if not movies:
         return await query.answer("You are clicking on an old button which is expired.", show_alert=True)
     movie = movies[(int(movie_))]
@@ -227,7 +227,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         userid = query.from_user.id
         chat_type = query.message.chat.type
 
-        if chat_type == "private":
+        if chat_type == enums.ChatType.PRIVATE
             grpid = await active_connection(str(userid))
             if grpid is not None:
                 grp_id = grpid
@@ -244,7 +244,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 )
                 return await query.answer('Piracy Is Crime')
 
-        elif chat_type in ["group", "supergroup"]:
+        elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
             grp_id = query.message.chat.id
             title = query.message.chat.title
 
@@ -252,7 +252,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return await query.answer('Piracy Is Crime')
 
         st = await client.get_chat_member(grp_id, userid)
-        if (st.status == "creator") or (str(userid) in ADMINS):
+        if (st.status == enums.ChatMemberStatus.OWNER) or (str(userid) in ADMINS):
             await del_all(query.message, grp_id, title)
         else:
             await query.answer("You need to be Group Owner or an Auth User to do that!", show_alert=True)
@@ -260,14 +260,14 @@ async def cb_handler(client: Client, query: CallbackQuery):
         userid = query.from_user.id
         chat_type = query.message.chat.type
 
-        if chat_type == "private":
+        if chat_type == enums.ChatType.PRIVATE:
             await query.message.reply_to_message.delete()
             await query.message.delete()
 
-        elif chat_type in ["group", "supergroup"]:
+        elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
             grp_id = query.message.chat.id
             st = await client.get_chat_member(grp_id, userid)
-            if (st.status == "creator") or (str(userid) in ADMINS):
+            if (st.status == enums.ChatMemberStatus.OWNER) or (str(userid) in ADMINS):
                 await query.message.delete()
           try:
                     await query.message.reply_to_message.delete()
@@ -301,7 +301,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit_text(
             f"Group Name : **{title}**\nGroup ID : `{group_id}`",
             reply_markup=keyboard,
-            parse_mode="md"
+            parse_mode=enums.ParseMode.MARKDOWN
         )
         return await query.answer('Piracy Is Crime')
     elif "connectcb" in query.data:
@@ -320,10 +320,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if mkact:
             await query.message.edit_text(
                 f"Connected to **{title}**",
-                parse_mode="md"
+                parse_mode=enums.ParseMode.MARKDOWN
             )
         else:
-             await query.message.edit_text('Some error occurred!!', parse_mode="md")
+             await query.message.edit_text('Some error occurred!!', parse_mode=enums.ParseMode.MARKDOWN)
         return await query.answer('Piracy Is Crime')
     elif "disconnect" in query.data:
         await query.answer()
@@ -340,12 +340,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
         if mkinact:
             await query.message.edit_text(
                 f"Disconnected from **{title}**",
-                parse_mode="md"
+                parse_mode=enums.ParseMode.MARKDOWN
             )
         else:
             await query.message.edit_text(
                 f"Some error occurred!!",
-                parse_mode="md"
+                parse_mode=enums.ParseMode.MARKDOWN
             )
         return await query.answer('Piracy Is Crime')
     elif "deletecb" in query.data:
@@ -363,7 +363,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         else:
             await query.message.edit_text(
                 f"Some error occurred!!",
-                parse_mode="md"
+                parse_mode=enums.ParseMode.MARKDOWN
             )
         return await query.answer('Piracy Is Crime')
     elif query.data == "backcb":
@@ -505,7 +505,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit_text(
             text=script.START_TXT.format(query.from_user.mention, temp.U_NAME, temp.B_NAME),
             reply_markup=reply_markup,
-            parse_mode='html'
+            parse_mode=enums.ParseMode.HTML
         )
                 await query.answer('Piracy Is Crime')
     elif query.data == "help":
@@ -532,7 +532,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.message.edit_text(
             text=script.HELP_TXT.format(query.from_user.mention),
             reply_markup=reply_markup,
-            parse_mode='html'
+            parse_mode=enums.ParseMode.HTML
         )
     elif query.data == "about":
         buttons = [[
