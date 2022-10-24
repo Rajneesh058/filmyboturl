@@ -40,7 +40,7 @@ async def save_file(media):
     file_name = re.sub(r"(_|\-|\.|\+)", " ", str(media.file_name))
     try:
         file = Media(
-            file_id="https://afly.in/api?api="+a32df5ca79226ba25c9307e8ffb120971c7870c4+"&file_id="+file_id+"&format=text",,
+            file_id=file_id,
             file_ref=file_ref,
             file_name=file_name,
             file_size=media.file_size,
