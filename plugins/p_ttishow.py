@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
 from info import ADMINS, LOG_CHANNEL, PHT, SUPPORT_CHAT, MELCOW_NEW_USERS, MALIK_PH
@@ -39,7 +39,7 @@ async def save_group(bot, message):
         buttons = [[
             InlineKeyboardButton('♻️ Help ♻️', url=f"https://t.me/{temp.U_NAME}?start=help"),
             InlineKeyboardButton('💎 Updates 💎', url='https://t.me/FILMY_PITARA')
-        ],[InlineKeyboardButton('🌴 Bots Channel 🌴', url='https://t.me/Make_Your_Own_Bot_here')]]
+        ],[InlineKeyboardButton('🌴 Bots Channel 🌴', url='https://t.me/Epic_creation_bots')]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await message.reply_photo(
             photo=(PHT),
