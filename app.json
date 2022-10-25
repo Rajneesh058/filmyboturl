@@ -1,5 +1,5 @@
 {
-    "name": "Movie-Finder-bot",
+    "name": "m_finder_bot",
     "description": "When you going to send file on telegram channel this bot will save that in database, So you can search that easily in inline mode",
     "stack": "container",
     "keywords": [
@@ -15,8 +15,8 @@
       "index",
       "inline"
     ],
-    "website": "https://github.com/malik7983/file-filter-bot",
-    "repository": "https://github.com/Rajneesh058/movie-finder-bot058",
+    "website": "https://github.com/Rajneesh058/m_finder_bot",
+    "repository": "https://github.com/Rajneesh058/m_finder_bot",
     "env": {
         "BOT_TOKEN": {
             "description": "Your bot token.",
