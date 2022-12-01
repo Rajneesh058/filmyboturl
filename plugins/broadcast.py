@@ -15,7 +15,7 @@ async def verupikkals(bot, message):
     sts = await message.reply_text(
         text='Broadcasting your messages...'
     )
-    start_time = datetime.now()
+    start_time = time.time()
     total_users = await db.total_users_count()
     done = 0
     blocked = 0

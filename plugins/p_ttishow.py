@@ -1,4 +1,4 @@
-from pyrogram import Client, filters, enums
+from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong, PeerIdInvalid
 from info import ADMINS, LOG_CHANNEL, PHT, SUPPORT_CHAT, MELCOW_NEW_USERS, MALIK_PH
@@ -37,9 +37,9 @@ async def save_group(bot, message):
             await bot.leave_chat(message.chat.id)
             return
         buttons = [[
-            InlineKeyboardButton('♻️ Help ♻️', url=f"https://t.me/{temp.U_NAME}?start=help"),
-            InlineKeyboardButton('💎 Updates 💎', url='https://t.me/FILMY_PITARA')
-        ],[InlineKeyboardButton('🌴 Bots Channel 🌴', url='https://t.me/Epic_creation_bots')]]
+            InlineKeyboardButton('ʜᴇʟᴘ', url=f"https://t.me/{temp.U_NAME}?start=help"),
+            InlineKeyboardButton('🎭ᴍᴏᴠɪᴇ ᴜᴘᴅᴀᴛᴇ🎭', url='https://t.me/+Dek49ihM4u5iNWQ1')
+        ],[InlineKeyboardButton(' ʙᴏᴛ ᴄʜᴀɴɴᴇʟ ', url='https://t.me/Epic_creation_bots')]]
         reply_markup=InlineKeyboardMarkup(buttons)
         await message.reply_photo(
             photo=(PHT),
@@ -55,15 +55,12 @@ async def save_group(bot, message):
                         await (temp.MELCOW['welcome']).delete()
                     except:
                         pass
-                temp.MELCOW['welcome'] = await message.reply_photo(
-                                                 photo=(MALIK_PH),
-                                                 caption=(MALIK_PHH.format(u.mention, message.chat.title)),
+                temp.MELCOW['welcome'] = await message.reply_text(
+                                                 text=(MALIK_PHH.format(u.mention, message.chat.title)),
                                                  reply_markup=InlineKeyboardMarkup(
                                                                          [[
-                                                                           InlineKeyboardButton('♻️ Help ♻️', url=f"https://t.me/{temp.U_NAME}?start=help")
-                                                                           ],[
-                                                                           InlineKeyboardButton('♻️ GROUP RULES ♻️', callback_data='group_rules')
-                                                                         ]]
+                                                                           InlineKeyboardButton('🎭ᴍᴏᴠɪᴇ ᴄʜᴀɴɴᴇʟ🎭',url='https://t.me/+Dek49ihM4u5iNWQ1')
+                                                                          ]]
                                                  ),
                                                  parse_mode='html'
 )
